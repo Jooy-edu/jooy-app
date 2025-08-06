@@ -7,7 +7,6 @@ import { toast } from "@/components/ui/use-toast";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Languages } from "lucide-react";
-import UserMenu from "@/components/UserMenu";
 
 const QrScannerPage: React.FC = () => {
   const navigate = useNavigate();
@@ -57,11 +56,6 @@ const QrScannerPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4">
-      {/* User Menu */}
-      <div className="fixed top-4 right-4 z-50">
-        <UserMenu />
-      </div>
-
       {/* Language Selection Button */}
       <div className="fixed top-4 left-4 z-50">
         <DropdownMenu>
