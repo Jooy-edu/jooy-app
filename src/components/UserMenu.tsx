@@ -15,6 +15,8 @@ const UserMenu: React.FC = () => {
 
   console.log('UserMenu: Render state -', { loading, hasUser: !!user, hasProfile: !!profile });
 
+  console.log('UserMenu: Render state -', { loading, hasUser: !!user, hasProfile: !!profile });
+
   const handleLogout = async () => {
     await signOut();
     navigate('/auth/login');
@@ -23,12 +25,15 @@ const UserMenu: React.FC = () => {
   if (loading) {
     console.log('UserMenu: Showing loading state');
     console.log('UserMenu: Showing loading state');
+    console.log('UserMenu: Showing loading state');
     return (
       <Button variant="outline" size="icon" className="bg-white shadow-md" disabled>
         <UserCircle className="h-5 w-5 animate-pulse" />
       </Button>
     );
   }
+
+  console.log('UserMenu: Rendering interactive menu');
 
   console.log('UserMenu: Rendering interactive menu');
 
