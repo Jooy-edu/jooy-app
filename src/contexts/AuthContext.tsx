@@ -46,6 +46,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Fetch user profile from profiles table
   const fetchProfile = async (userId: string): Promise<UserProfile | null> => {
+    console.log('AuthContext: Starting fetchProfile for userId:', userId);
     try {
       const { data, error } = await supabase
         .from('profiles')
@@ -54,12 +55,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         .single();
 
       if (error) {
+        console.error('AuthContext: Error fetching profile from Supabase:', error);
         console.error('Error fetching profile:', error);
         return null;
       }
 
+      console.log('AuthContext: Successfully fetched profile data:', data);
       return data as UserProfile;
     } catch (error) {
+      console.error('AuthContext: Caught exception during fetchProfile:', error);
       console.error('Error fetching profile:', error);
       return null;
     }
