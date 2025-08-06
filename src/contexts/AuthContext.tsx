@@ -96,13 +96,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setUser(session?.user ?? null);
         
         if (session?.user) {
+          console.log('AuthContext: Fetching profile for user:', session.user.id);
           const profileData = await fetchProfile(session.user.id);
           setProfile(profileData);
+          console.log('AuthContext: Profile fetched:', profileData);
         } else {
           setProfile(null);
+          console.log('AuthContext: User signed out, clearing profile.');
         }
         
         setLoading(false);
+        console.log('AuthContext: Auth state change processed, loading set to false.');
       }
     );
 
