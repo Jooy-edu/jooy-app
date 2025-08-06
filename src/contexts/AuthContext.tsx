@@ -217,7 +217,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Sign in with Google function
   const signInWithGoogle = async () => {
+    console.log('AuthContext: signInWithGoogle called');
     try {
+      console.log('AuthContext: Attempting supabase.auth.signInWithOAuth...');
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
@@ -229,6 +231,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       });
 
       if (error) {
+        console.error('AuthContext: signInWithOAuth error:', error);
         toast({
           title: "Google Sign-In Error",
           description: error.message,
@@ -237,9 +240,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return { error };
       }
 
+      console.log('AuthContext: signInWithOAuth initiated successfully');
       return { error: null };
     } catch (error) {
       const authError = error as AuthError;
+      console.error('AuthContext: signInWithGoogle catch block error:', authError);
       toast({
         title: "Google Sign-In Error",
         description: authError.message,
