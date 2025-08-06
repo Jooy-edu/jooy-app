@@ -170,6 +170,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       if (error) {
         console.error('AuthContext: Sign In Error:', error.message);
+        console.error('AuthContext: Sign In Error details:', error);
         toast({
           title: "Sign In Error",
           description: error.message,
@@ -188,6 +189,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     } catch (error) {
       const authError = error as AuthError;
       console.error('AuthContext: Caught exception during Sign In:', authError.message);
+      console.error('AuthContext: Caught exception during Sign In details:', authError);
       toast({
         title: "Sign In Error",
         description: authError.message,
