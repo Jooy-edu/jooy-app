@@ -111,7 +111,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Sign up function
   const signUp = async (email: string, password: string, fullName?: string) => {
-    console.log('AuthContext: Attempting sign up for email:', email, 'with role:', role);
     try {
       const { data, error } = await supabase.auth.signUp({
         email,
@@ -124,7 +123,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       });
 
       if (error) {
-        console.error('AuthContext: Sign Up Error:', error.message);
         toast({
           title: "Sign Up Error",
           description: error.message,
@@ -134,19 +132,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
 
       if (data.user && !data.session) {
-        console.log('AuthContext: Sign Up Successful, email confirmation required for:', data.user.email);
         toast({
           title: "Check Your Email",
           description: "Please check your email for a confirmation link to complete your registration.",
         });
-      } else if (data.session) {
-        console.log('AuthContext: Sign Up Successful with immediate session for:', data.user?.email);
       }
 
       return { error: null };
     } catch (error) {
       const authError = error as AuthError;
-      console.error('AuthContext: Caught exception during Sign Up:', authError.message);
       toast({
         title: "Sign Up Error",
         description: authError.message,
@@ -158,19 +152,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Sign in function
   const signIn = async (email: string, password: string) => {
-    console.log('AuthContext: Attempting sign in for email:', email);
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
-      // NEW LOG: Inspect the direct result from Supabase
-      console.log('AuthContext: Result from signInWithPassword - data:', data, 'error:', error);
-
       if (error) {
-        console.error('AuthContext: Sign In Error:', error.message);
-        console.error('AuthContext: Sign In Error details:', error);
         toast({
           title: "Sign In Error",
           description: error.message,
@@ -179,7 +167,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return { error };
       }
 
-      console.log('AuthContext: Sign In Successful for user:', data.user?.email);
       toast({
         title: "Welcome Back!",
         description: "You have successfully signed in.",
@@ -188,8 +175,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return { error: null };
     } catch (error) {
       const authError = error as AuthError;
-      console.error('AuthContext: Caught exception during Sign In:', authError.message);
-      console.error('AuthContext: Caught exception during Sign In details:', authError);
       toast({
         title: "Sign In Error",
         description: authError.message,
@@ -232,7 +217,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Sign in with Google function
   const signInWithGoogle = async () => {
-    console.log('AuthContext: Attempting Google sign in');
     try {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
@@ -245,7 +229,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       });
 
       if (error) {
-        console.error('AuthContext: Google Sign-In Error:', error.message);
         toast({
           title: "Google Sign-In Error",
           description: error.message,
@@ -254,11 +237,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return { error };
       }
 
-      console.log('AuthContext: Google sign in initiated successfully');
       return { error: null };
     } catch (error) {
       const authError = error as AuthError;
-      console.error('AuthContext: Caught exception during Google Sign In:', authError.message);
       toast({
         title: "Google Sign-In Error",
         description: authError.message,
