@@ -27,8 +27,10 @@ const LoginForm: React.FC = () => {
   const handleGoogleSignIn = async () => {
     setLoading(true);
     setErrors({});
+    console.log('LoginForm: Starting Google sign in');
     await signInWithGoogle();
     setLoading(false);
+    console.log('LoginForm: Google sign in completed, setting loading to false');
   };
 
   const validateForm = () => {
@@ -56,14 +58,17 @@ const LoginForm: React.FC = () => {
     e.preventDefault();
     
     if (!validateForm()) {
+      console.log('LoginForm: Validation failed');
       return;
     }
 
     setLoading(true);
     setErrors({});
+    console.log('LoginForm: Setting loading to true, calling signIn for email:', email);
 
     const { error } = await signIn(email, password);
 
+    console.log('LoginForm: signIn call returned. Error:', error);
     if (error) {
       // Provide more user-friendly error messages
       if (error.message.includes('Invalid login credentials')) {
@@ -77,12 +82,15 @@ const LoginForm: React.FC = () => {
       } else {
         setErrors({ general: error.message });
       }
+      console.log('LoginForm: Handling sign in error:', error.message);
     } else {
       // Redirect to intended destination or home
+      console.log('LoginForm: Sign in successful, navigating to:', from);
       navigate(from, { replace: true });
     }
 
     setLoading(false);
+    console.log('LoginForm: Setting loading to false');
   };
 
   const isRTL = t('common.language') === 'العربية';
