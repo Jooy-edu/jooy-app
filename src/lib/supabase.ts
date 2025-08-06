@@ -5,6 +5,7 @@ const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 
 // Create a mock client for development when Supabase is not configured
+// Removed all authentication-related mock methods
 const createMockClient = () => ({
   from: () => ({
     select: () => Promise.resolve({ data: null, error: new Error('Supabase not configured') }),
@@ -15,11 +16,14 @@ const createMockClient = () => ({
     single: function() { return this },
     order: function() { return this }
   }),
-  auth: {
-    getSession: () => Promise.resolve({ data: { session: null }, error: null }),
-    signIn: () => Promise.resolve({ data: null, error: new Error('Supabase not configured') }),
-    signOut: () => Promise.resolve({ error: null }),
+  functions: {
+    invoke: () => Promise.resolve({ data: null, error: new Error('Supabase not configured') })
   },
+  storage: {
+    from: () => ({
+      createSignedUrl: () => Promise.resolve({ data: null, error: new Error('Supabase not configured') })
+    })
+  }
 })
 
 // Check if environment variables are properly configured

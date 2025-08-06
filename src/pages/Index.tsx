@@ -1,21 +1,19 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { QrCode, FileText, MessageSquareText, User } from 'lucide-react';
+import { QrCode, FileText } from 'lucide-react';
 
 const Index = () => {
   const { t } = useTranslation();
-  const { user, profile } = useAuth();
   const navigate = useNavigate();
   const isRTL = t('common.language') === 'العربية';
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
-        {/* Header */}
+        {/* Header - removed user-specific greeting */}
         <div className="text-center mb-12" dir={isRTL ? 'rtl' : 'ltr'}>
           <h1 className="text-4xl font-bold text-gradient-clip mb-4">
             Welcome to Jooy
@@ -23,16 +21,11 @@ const Index = () => {
           <p className="text-xl text-gray-600 mb-2">
             Interactive Worksheet Learning Platform
           </p>
-          {user && profile && (
-            <p className="text-lg text-gray-700">
-              Hello, {profile.full_name || user.email}!
-            </p>
-          )}
         </div>
 
-        {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => navigate('/')}>
+        {/* Quick Actions - removed Profile card */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+          <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => navigate('/qr-scanner')}>
             <CardHeader className="text-center">
               <QrCode className="h-12 w-12 mx-auto mb-4 text-blue-600" />
               <CardTitle>Scan QR Code</CardTitle>
@@ -40,18 +33,6 @@ const Index = () => {
             <CardContent>
               <p className="text-gray-600 text-center">
                 Scan a worksheet QR code to get started
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => navigate('/profile')}>
-            <CardHeader className="text-center">
-              <User className="h-12 w-12 mx-auto mb-4 text-green-600" />
-              <CardTitle>Profile</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600 text-center">
-                Manage your account settings
               </p>
             </CardContent>
           </Card>

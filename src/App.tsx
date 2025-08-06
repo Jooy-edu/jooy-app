@@ -12,51 +12,32 @@ import QRScannerButton from "./components/QRScannerButton";
 import FullscreenButton from "./components/FullscreenButton";
 import PWAInstallPrompt from "./components/PWAInstallPrompt";
 
-// Import Auth components
-import { AuthProvider } from "./contexts/AuthContext";
-import ProtectedRoute from "./components/auth/ProtectedRoute";
-import LoginForm from "./components/auth/LoginForm";
-import RegisterForm from "./components/auth/RegisterForm";
-import ForgotPasswordForm from "./components/auth/ForgotPasswordForm";
-import ResetPasswordForm from "./components/auth/ResetPasswordForm";
-import ProfilePage from "./components/auth/ProfilePage";
-
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            {/* Public routes */}
-            <Route path="/" element={<QrScannerPage />} />
-            <Route path="/auth/login" element={<LoginForm />} />
-            <Route path="/auth/register" element={<RegisterForm />} />
-            <Route path="/auth/forgot-password" element={<ForgotPasswordForm />} />
-            <Route path="/reset-password" element={<ResetPasswordForm />} />
-            
-            {/* Protected routes */}
-            <Route path="/worksheet/:id/:n" element={<ProtectedRoute><WorksheetPage /></ProtectedRoute>} />
-            <Route path="/chat/:worksheetId/:pageNumber" element={<ProtectedRoute><AIChatPage /></ProtectedRoute>} />
-            <Route path="/home" element={<ProtectedRoute><Index /></ProtectedRoute>} />
-            <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
-            
-            {/* 404 route */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-          <FullscreenButton />
-          <Routes>
-            <Route path="/" element={null} />
-            <Route path="/auth/*" element={null} />
-            <Route path="*" element={<QRScannerButton />} />
-          </Routes>
-          <PWAInstallPrompt />
-        </BrowserRouter>
-      </TooltipProvider>
-    </AuthProvider>
+    <TooltipProvider>
+      <Toaster />
+      <Sonner />
+      <BrowserRouter>
+        <Routes>
+          {/* All routes are now public - no authentication required */}
+          <Route path="/" element={<Index />} />
+          <Route path="/qr-scanner" element={<QrScannerPage />} />
+          <Route path="/worksheet/:id/:n" element={<WorksheetPage />} />
+          <Route path="/chat/:worksheetId/:pageNumber" element={<AIChatPage />} />
+          
+          {/* 404 route */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+        <FullscreenButton />
+        <Routes>
+          <Route path="/" element={null} />
+          <Route path="*" element={<QRScannerButton />} />
+        </Routes>
+        <PWAInstallPrompt />
+      </BrowserRouter>
+    </TooltipProvider>
   </QueryClientProvider>
 );
 

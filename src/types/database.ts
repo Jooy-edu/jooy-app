@@ -6,6 +6,7 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
+// Removed user_role enum and profiles table as they are authentication-related
 export type Database = {
   public: {
     Enums: {
@@ -338,17 +339,7 @@ export type Database = {
           voice_type?: string | null;
         };
       };
-      users: {
-        Row: {
-          id: string;
-        };
-        Insert: {
-          id: string;
-        };
-        Update: {
-          id?: string;
-        };
-      };
+      // Removed users table as it was authentication-related
     };
     Views: {
       [_ in never]: never;
