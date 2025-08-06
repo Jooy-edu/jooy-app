@@ -165,6 +165,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         password,
       });
 
+      // NEW LOG: Inspect the direct result from Supabase
+      console.log('AuthContext: Result from signInWithPassword - data:', data, 'error:', error);
+
       if (error) {
         console.error('AuthContext: Sign In Error:', error.message);
         toast({
