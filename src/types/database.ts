@@ -91,7 +91,8 @@ export interface Database {
     }
     Enums: {
       [_ in never]: never
-  role: 'user' | 'admin' | 'student';
+      role: 'user' | 'admin' | 'student';
+    }
     CompositeTypes: {
       [_ in never]: never
     }
