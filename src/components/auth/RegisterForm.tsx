@@ -18,8 +18,6 @@ const passwordRequirements: PasswordRequirement[] = [
   { regex: /.{8,}/, message: 'At least 8 characters' },
   { regex: /[0-9]/, message: 'At least one number' },
   { regex: /[a-z]/, message: 'At least one lowercase letter' },
-  { regex: /[A-Z]/, message: 'At least one uppercase letter' },
-  { regex: /[^A-Za-z0-9]/, message: 'At least one special character' },
 ];
 
 const RegisterForm: React.FC = () => {
