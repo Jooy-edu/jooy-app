@@ -33,10 +33,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     const getSession = async () => {
       try {
+        console.log('AuthContext: Starting getSession...');
         const { data: { session }, error } = await supabase.auth.getSession();
         if (error) {
           console.error('Error getting session:', error);
         }
+        console.log('AuthContext: Session retrieved:', session?.user?.email || 'No user');
         setSession(session);
         setUser(session?.user || null);
         if (session?.user) {
@@ -46,6 +48,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         console.error('Error in getSession:', error);
       } finally {
         setLoading(false);
+        console.log('AuthContext: getSession finished, loading set to false');
       }
     };
 
@@ -61,6 +64,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setProfile(null);
       }
       setLoading(false);
+      console.log('AuthContext: Auth state change handler finished, loading set to false');
     });
 
     return () => {
@@ -70,6 +74,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const fetchProfile = async (userId: string) => {
     try {
+      console.log('AuthContext: Fetching profile for user:', userId);
       const { data, error } = await supabase
         .from('profiles')
         .select('*')
@@ -80,6 +85,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         console.error('Error fetching profile:', error);
         setProfile(null);
       } else {
+        console.log('AuthContext: Profile fetched successfully:', data);
         setProfile(data);
       }
     } catch (error) {

@@ -4,6 +4,13 @@ import type { Database } from '@/types/database'
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 
+console.log('Supabase Config Check:', {
+  hasUrl: !!supabaseUrl,
+  hasKey: !!supabaseAnonKey,
+  urlValue: supabaseUrl ? 'Set' : 'Missing',
+  keyValue: supabaseAnonKey ? 'Set' : 'Missing'
+});
+
 // Create a mock client for development when Supabase is not configured
 const createMockClient = () => ({
   from: () => ({
