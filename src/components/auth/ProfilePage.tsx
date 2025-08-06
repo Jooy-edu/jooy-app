@@ -65,7 +65,7 @@ const ProfilePage: React.FC = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Profile Information */}
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-2">
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2" dir={isRTL ? 'rtl' : 'ltr'}>
@@ -174,9 +174,49 @@ const ProfilePage: React.FC = () => {
                 </div>
               </CardContent>
             </Card>
+          </div>
+
+          {/* Account Summary */}
+          <div className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2" dir={isRTL ? 'rtl' : 'ltr'}>
+                  <Settings className="h-5 w-5" />
+                  Account Summary
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {/* Role */}
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-gray-600" dir={isRTL ? 'rtl' : 'ltr'}>Role:</span>
+                  <Badge variant={profile.role === 'admin' ? 'default' : 'secondary'}>
+                    {profile.role === 'admin' ? 'Administrator' : 'User'}
+                  </Badge>
+                </div>
+
+                {/* Credits */}
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-gray-600 flex items-center gap-1" dir={isRTL ? 'rtl' : 'ltr'}>
+                    <CreditCard className="h-4 w-4" />
+                    Credits:
+                  </span>
+                  <span className="font-semibold text-gray-900">
+                    {profile.credits_remaining}
+                  </span>
+                </div>
+
+                {/* Onboarding Status */}
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-gray-600" dir={isRTL ? 'rtl' : 'ltr'}>Onboarding:</span>
+                  <Badge variant={profile.onboarding_completed ? 'default' : 'secondary'}>
+                    {profile.onboarding_completed ? 'Completed' : 'Pending'}
+                  </Badge>
+                </div>
+              </CardContent>
+            </Card>
 
             {/* Sign Out */}
-            <Card className="mt-6">
+            <Card>
               <CardContent className="pt-6">
                 <Button
                   onClick={handleSignOut}

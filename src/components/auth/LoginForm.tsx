@@ -78,8 +78,6 @@ const LoginForm: React.FC = () => {
         setErrors({ general: error.message });
       }
     } else {
-      // This is the crucial part: ensure navigation happens here
-      console.log('LoginForm: Sign-in successful, navigating to:', from);
       // Redirect to intended destination or home
       navigate(from, { replace: true });
     }
