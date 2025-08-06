@@ -215,6 +215,37 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  // Sign in with Google function
+  const signInWithGoogle = async () => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: window.location.origin,
+        },
+      });
+
+      if (error) {
+        toast({
+          title: "Google Sign-In Error",
+          description: error.message,
+          variant: "destructive"
+        });
+        return { error };
+      }
+
+      return { error: null };
+    } catch (error) {
+      const authError = error as AuthError;
+      toast({
+        title: "Google Sign-In Error",
+        description: authError.message,
+        variant: "destructive"
+      });
+      return { error: authError };
+    }
+  };
+
   // Reset password function
   const resetPassword = async (email: string) => {
     try {
