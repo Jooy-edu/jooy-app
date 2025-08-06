@@ -80,6 +80,13 @@ const RegisterForm: React.FC = () => {
     return Object.keys(newErrors).length === 0;
   };
 
+  const handleGoogleSignIn = async () => {
+    setLoading(true);
+    setErrors({});
+    await signInWithGoogle();
+    setLoading(false);
+  };
+
   const handleInputChange = (field: keyof typeof formData) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData(prev => ({ ...prev, [field]: e.target.value }));
     // Clear error for this field when user starts typing
