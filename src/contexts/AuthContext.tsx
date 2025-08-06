@@ -222,6 +222,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         provider: 'google',
         options: {
           redirectTo: window.location.origin,
+          queryParams: {
+            role: 'student'
+          }
         },
       });
 
