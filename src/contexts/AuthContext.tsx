@@ -31,43 +31,53 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const getSession = async () => {
+    let isMounted = true; // Flag to prevent state updates on unmounted component
+
+    const initializeAuth = async () => {
+      setLoading(true); // Ensure loading is true at the start of initialization
       try {
-        console.log('AuthContext: Starting getSession...');
+        console.log('AuthContext: Starting initial auth check...');
         const { data: { session }, error } = await supabase.auth.getSession();
+        if (!isMounted) return; // Check mount status before state update
         if (error) {
-          console.error('Error getting session:', error);
+          console.error('AuthContext: Error getting initial session:', error);
         }
         console.log('AuthContext: Session retrieved:', session?.user?.email || 'No user');
         setSession(session);
         setUser(session?.user || null);
+
         if (session?.user) {
-          await fetchProfile(session.user.id);
+          await fetchProfile(session.user.id); // Wait for profile fetch
+        } else {
+          setProfile(null); // Clear profile if no user
         }
       } catch (error) {
-        console.error('Error in getSession:', error);
+        console.error('AuthContext: Error during initial auth check:', error);
       } finally {
-        setLoading(false);
-        console.log('AuthContext: getSession finished, loading set to false');
+        if (isMounted) {
+          setLoading(false); // Set loading to false after initial check is complete
+          console.log('AuthContext: Initial auth check finished, loading set to false.');
+        }
       }
     };
 
-    getSession();
+    initializeAuth();
 
+    // Listener for auth state changes
     const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (!isMounted) return; // Check mount status before state update
       console.log('Auth state changed:', event, session?.user?.email);
       setSession(session);
       setUser(session?.user || null);
       if (session?.user) {
-        await fetchProfile(session.user.id);
+        await fetchProfile(session.user.id); // Wait for profile fetch
       } else {
         setProfile(null);
       }
-      setLoading(false);
-      console.log('AuthContext: Auth state change handler finished, loading set to false');
     });
 
-    return () => {
+    return () => { // Cleanup function
+      isMounted = false; // Set flag to false on unmount
       authListener.subscription.unsubscribe();
     };
   }, []);
