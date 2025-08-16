@@ -6,14 +6,20 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
-// Removed user_role enum and profiles table as they are authentication-related
+export type UserRole = 'user' | 'admin' | 'student'
+
 export type Database = {
   public: {
     Enums: {
-      [_ in never]: never;
+      user_role: UserRole;
     };
     Functions: {
-      [_ in never]: never;
+      is_admin: {
+        Args: {
+          user_id: string;
+        };
+        Returns: boolean;
+      };
     };
     Tables: {
       admin_tasks: {
@@ -339,7 +345,41 @@ export type Database = {
           voice_type?: string | null;
         };
       };
-      // Removed users table as it was authentication-related
+      profiles: {
+        Row: {
+          id: string;
+          email: string;
+          full_name: string | null;
+          role: UserRole;
+          created_at: string;
+          plan_id: string | null;
+          credits_remaining: number;
+          onboarding_completed: boolean;
+          updated_at: string;
+        };
+        Insert: {
+          id: string;
+          email: string;
+          full_name?: string | null;
+          role?: UserRole;
+          created_at?: string;
+          plan_id?: string | null;
+          credits_remaining?: number;
+          onboarding_completed?: boolean;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          email?: string;
+          full_name?: string | null;
+          role?: UserRole;
+          created_at?: string;
+          plan_id?: string | null;
+          credits_remaining?: number;
+          onboarding_completed?: boolean;
+          updated_at?: string;
+        };
+      };
     };
     Views: {
       [_ in never]: never;
