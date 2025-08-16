@@ -1,30 +1,38 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { QrCode, FileText } from 'lucide-react';
+import { QrCode, FileText, User } from 'lucide-react';
+import UserMenu from '@/components/UserMenu';
 
 const Index = () => {
   const { t } = useTranslation();
+  const { user, profile } = useAuth();
   const navigate = useNavigate();
   const isRTL = t('common.language') === 'العربية';
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      {/* User Menu */}
+      <div className="fixed top-4 right-4 z-50">
+        <UserMenu />
+      </div>
+
       <div className="max-w-4xl mx-auto">
-        {/* Header - removed user-specific greeting */}
+        {/* Header with user-specific greeting */}
         <div className="text-center mb-12" dir={isRTL ? 'rtl' : 'ltr'}>
           <h1 className="text-4xl font-bold text-gradient-clip mb-4">
-            Welcome to Jooy
+            {user ? `Welcome back, ${profile?.full_name || 'User'}!` : 'Welcome to Jooy'}
           </h1>
           <p className="text-xl text-gray-600 mb-2">
             Interactive Worksheet Learning Platform
           </p>
         </div>
 
-        {/* Quick Actions - removed Profile card */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+        {/* Quick Actions with Profile card */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => navigate('/qr-scanner')}>
             <CardHeader className="text-center">
               <QrCode className="h-12 w-12 mx-auto mb-4 text-blue-600" />
@@ -33,6 +41,18 @@ const Index = () => {
             <CardContent>
               <p className="text-gray-600 text-center">
                 Scan a worksheet QR code to get started
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => navigate('/profile')}>
+            <CardHeader className="text-center">
+              <User className="h-12 w-12 mx-auto mb-4 text-green-600" />
+              <CardTitle>My Profile</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-gray-600 text-center">
+                View and edit your profile settings
               </p>
             </CardContent>
           </Card>

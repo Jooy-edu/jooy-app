@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { supabase, shouldUseSupabase } from '@/lib/supabase'
+import { supabase, isSupabaseReady } from '@/lib/supabase'
 import type { WorksheetMetadata, RegionsModeMetadata } from '@/types/worksheet'
 
 interface WorksheetDataResponse {
@@ -12,7 +12,7 @@ export const useWorksheetData = (worksheetId: string) => {
     queryKey: ['worksheet', worksheetId],
     queryFn: async (): Promise<WorksheetDataResponse> => {
       // If Supabase is not configured, fallback to JSON files
-      if (!shouldUseSupabase()) {
+      if (!isSupabaseReady) {
         console.log('Supabase not configured, using JSON fallback')
         const response = await fetch(`/data/${worksheetId}.json`)
         if (!response.ok) {
@@ -70,7 +70,7 @@ export const useRegionsByPage = (worksheetId: string, pageNumber: number) => {
     queryKey: ['regions', worksheetId, pageNumber],
     queryFn: async () => {
       // If Supabase is not configured, fallback to JSON files
-      if (!shouldUseSupabase()) {
+      if (!isSupabaseReady) {
         const response = await fetch(`/data/${worksheetId}.json`)
         if (!response.ok) {
           throw new Error(`Failed to fetch worksheet data: ${response.status}`)
